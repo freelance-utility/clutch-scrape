@@ -4,6 +4,8 @@ const path = require("path")
 const fs = require("fs");
 const http = require("http");
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 const main = async () => {
 		
 	const baseurl = "https://clutch.co"
@@ -24,6 +26,7 @@ const main = async () => {
 		for (iCompany =0; iCompany<urls.length; iCompany++)
 		{
 			var company = {}
+			await delay(3000+Math.random()*10000);
 			cdom = new JSDOM((await (await fetch(urls[iCompany])).text()));
 			// company title
 			company.name = cdom.window.document.querySelector(".header-company--title").innerText;
@@ -57,6 +60,7 @@ const main = async () => {
 				})
 
 				const file = fs.createWriteStream("./portfolio/"+company.name+"/file.jpg");
+				await delay(3000+Math.random()*10000);
 				await (await http.get(element.querySelector(".image-source").attributes['data-source'].textContent).pipe(file));
 			})
 			
@@ -76,16 +80,17 @@ const main = async () => {
 						result: reviewitem.querySelector(".full-review [id^='result']").innerText,
 					})
 				})
+				await delay(3000+Math.random()*10000);
 				cdom = new JSDOM((await (await fetch(urls[iCompany]+"?page="+iReview)).text()));
 				iReview++;
 			} while (iReview < reviewcnt);
 
 			fs.writeFileSync("./portfolio/"+company.name+"/info.txt", JSON.stringify(company, null, "\t"));
 		}
+		await delay(3000+Math.random()*10000);
 		dom = new JSDOM((await (await fetch("https://clutch.co/us/web-developers?page="+iPage)).text()));
 		iPage++;
 	} while (iPage < pages);
-
 }
 
 main()
