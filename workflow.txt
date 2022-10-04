@@ -1,0 +1,32 @@
+load base url
+	get total page count
+
+	for in pages count
+		load page
+		get company urls
+		for url in company urls
+			{
+				company name
+				location
+				founded
+				description
+				portfolio: [{
+					title
+					description
+					image url
+				}]
+				reviews: [{
+					title
+					project summary
+					feedback summary
+					background
+					challenge
+					solution
+					result
+				}]
+			}
+			get review page count
+			for review pages
+				load review pages
+				get reviews
+			download portfolio image and set the name (company name + portfolio title)
